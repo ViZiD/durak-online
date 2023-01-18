@@ -1,5 +1,5 @@
 import ready from '@ryanmorr/ready';
-import { persistor, store } from '../../store';
+import { store } from '../../store';
 
 import { decks, durakRe, selectors } from './constants';
 import {
@@ -14,18 +14,18 @@ import {
   deckReceived,
   deckUpdateOne,
   deckUpdateMany,
-  deckSelectors,
+  // deckSelectors,
 } from '../../features/deck/deckSlice';
 import {
   onTableDiscard,
   onlyDiscard,
-  filterByDiamonds,
-  filterByHearts,
-  filterByClubs,
-  filterBySpades,
+  // filterByDiamonds,
+  // filterByHearts,
+  // filterByClubs,
+  // filterBySpades,
 } from '../../features/deck/selectors';
 
-export default async function () {
+export default function () {
   ready(selectors.Game.Screen, function () {
     if (!store.getState()?.game?.gameStart) {
       store.dispatch(toggleGameStatus());
@@ -101,13 +101,13 @@ export default async function () {
   ready(selectors.GardageList, function () {
     store.dispatch(deckUpdateMany(onTableDiscard(store.getState())));
 
-    console.log(filterByDiamonds(store.getState()));
-    console.log(filterByHearts(store.getState()));
-    console.log(filterByClubs(store.getState()));
-    console.log(filterBySpades(store.getState()));
+    // console.log(filterByDiamonds(store.getState()));
+    // console.log(filterByHearts(store.getState()));
+    // console.log(filterByClubs(store.getState()));
+    // console.log(filterBySpades(store.getState()));
   });
 
   store.subscribe(() => {
-    // console.log(store.getState().deck?.['entities']);
+    console.log(store.getState().deck?.['entities']);
   });
 }
