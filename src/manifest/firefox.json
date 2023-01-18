@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "browser_action": {
+    "browser_style": true,
+    "default_title": "durak online helper",
+    "default_popup": "assets/html/popup.html"
+  },
+  "background": {
+    "scripts": [
+      "worker/worker.js"
+    ],
+    "persistent": true
+  },
+  "permissions": [
+    "https://durakonline.ru/*",
+    "storage"
+  ]
+}

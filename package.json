@@ -1,0 +1,72 @@
+{
+  "name": "durakhelper",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "vizid1337@gmail.com",
+  "private": true,
+  "scripts": {
+    "manifest": "node src/manifest/generate.mjs",
+    "manifest:chrome": "TARGET=chrome yarn manifest",
+    "manifest:firefox": "TARGET=firefox yarn manifest",
+    "bundle": "parcel src/manifest.json",
+    "bundle:chrome": "TARGET=chrome yarn bundle",
+    "bundle:firefox": "TARGET=firefox yarn bundle",
+    "clean": "rimraf ./dist",
+    "clean:build": "rimraf ./build",
+    "clean:build:chrome": "rimraf ./build/chrome",
+    "clean:build:firefox": "rimraf ./build/firefox",
+    "chrome": "TARGET=chrome yarn clean && yarn manifest:chrome && yarn bundle:chrome --no-hmr",
+    "firefox": "TARGET=firefox yarn clean && yarn manifest:firefox && yarn bundle:firefox --no-hmr",
+    "run:chrome": "web-ext run -t chromium --source-dir ./dist",
+    "run:firefox": "web-ext run -t firefox-desktop --source-dir ./dist",
+    "build": "parcel build src/manifest.json --no-content-hash --no-cache --no-source-maps",
+    "build:chrome": "yarn clean:build:chrome && yarn manifest:chrome && TARGET=chrome yarn build --dist-dir build/chrome",
+    "build:firefox": "yarn clean:build:firefox && yarn manifest:firefox && TARGET=firefox yarn build --dist-dir build/firefox",
+    "pack:chrome": "yarn web-ext build -s build/chrome -a releases/chrome",
+    "pack:firefox": "yarn web-ext build -s build/firefox -a releases/firefox"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
+  },
+  "browserslist": [
+    "last 5 Chrome versions",
+    "last 5 Firefox versions",
+    "last 5 Opera versions",
+    "last 5 Edge versions"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.12.0",
+    "@babel/preset-react": "^7.18.6",
+    "@parcel/config-webextension": "^2.8.2",
+    "@parcel/reporter-bundle-analyzer": "^2.8.2",
+    "@parcel/reporter-bundle-buddy": "^2.8.2",
+    "babel-plugin-styled-components": "^2.0.7",
+    "eslint": "^8.30.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "parcel": "^2.8.2",
+    "prettier": "^2.8.1",
+    "process": "^0.11.10",
+    "rimraf": "^4.1.0",
+    "web-ext": "^7.4.0"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
+    "@ryanmorr/ready": "^1.4.0",
+    "chalk": "^5.2.0",
+    "element-ready": "^6.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "redux-persist": "^6.0.0",
+    "redux-persist-webextension-storage": "^1.0.2",
+    "redux-thunk": "^2.4.2",
+    "styled-components": "^5.3.6",
+    "url": "^0.11.0",
+    "webextension-polyfill": "^0.10.0"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "durak online helper",
+  "description": "durak online tools and helpers",
+  "version": "1.0.0",
+  "icons": {
+    "128": "assets/icons/128.png"
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_idle",
+      "js": [
+        "content/main.js"
+      ],
+      "matches": [
+        "https://durakonline.ru/*"
+      ]
+    }
+  ]
+}
