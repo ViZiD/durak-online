@@ -3,3 +3,4 @@ build
 dist
 releases
 .parcel-cache
+manifest.json
