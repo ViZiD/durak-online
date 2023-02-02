@@ -6,12 +6,10 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { store, persistor } from '../../store';
 import { theme } from './styles/theme';
+import { GlobalStyles } from './styles/global';
 
 import App from './components/App';
 
-const WidgetContainer = styled.div`
-  all: initial;
-`;
 export default function () {
   const app = document.createElement('div');
   app.id = 'durak-helper-root';
@@ -23,13 +21,12 @@ export default function () {
   root.render(
     <ThemeProvider theme={theme}>
       <StyleSheetManager target={document.getElementById(app.id).shadowRoot}>
-        <WidgetContainer>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <App />
-            </PersistGate>
-          </Provider>
-        </WidgetContainer>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <GlobalStyles />
+            <App />
+          </PersistGate>
+        </Provider>
       </StyleSheetManager>
     </ThemeProvider>,
   );

@@ -1,0 +1,7 @@
+@font-face {
+  font-family: Cuprum;
+  src: url(../../../assets/fonts/Cuprum-Regular.eot),
+    url(../../../assets/fonts/Cuprum-Regular.woff) format('woff'),
+    url(../../../assets/fonts/Cuprum-Regular.ttf) format('truetype');
+  font-weight: 400;
+}

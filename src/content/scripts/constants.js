@@ -1,42 +1,60 @@
+export const suitType = {
+  0: 'hearts',
+  1: 'diamonds',
+  2: 'clubs',
+  3: 'spades',
+};
+
 // regex
 export const durakRe = {
   card: /\d+\-\d+/,
+  userID: /UserLong([\d].+)/,
+};
+
+export const durakGameType = {
+  durak: 1,
+  bura: 2,
+  ochko: 3,
+};
+
+export const durakDecks = {
+  deck24: 24,
+  deck36: 36,
+  deck52: 52,
 };
 
 // selectors
 export const selectors = {
   Table: {
-    Card: '.front .OneCardSnippet img',
+    Card: '.front .OneCardSnippet img[src]',
     OneEnemy: '.oneEnemy',
-    TrumpCard: '.addClasstrump img',
+    TrumpCard: '.isTrump .addClasstrump img',
   },
   MeUser: {
+    Me: '.MeUserRound',
     Card: '.OneMyCard .OneCardSnippet img',
   },
   Users: {
-    User1: '#UserByte\\30 ',
-    User2: '#UserByte\\31 ',
-    User3: '#UserByte\\32 ',
-    User4: '#UserByte\\33 ',
-    User5: '#UserByte\\34 ',
-    User6: '#UserByte\\35 ',
-    Pusher: '.IsPushIndicator',
-    Defer: '.IsDefIndicator',
+    Taker: '.Enemys .Defer .IAmTaker',
+    removedTaker: '.IAmTaker',
   },
   Game: {
-    Screen: '.GameWrapper',
+    LoginScreen: '.container .bodysite .loginpage',
+    MainScreen: '#root .wrapper .LobbyContainer',
+    StartGame: '#root .wrapper .GameWrapper',
     Durak: '.DurakCenter',
     Bura: '.BuraCenter',
     EndGame: '.ModalContent .GameEnd',
-    DeckCount: '.TableDeckCount span',
+    DeckCount: '.IcoInfo .TableDeckCount span',
     Options: '.IcoInfo',
     Type: {
-      Durak: '.TableType.TableTypeIco1',
-      Bura: '.TableType.TableTypeIco2',
-      Ochko: '.TableType.TableTypeIco3',
+      Durak: '.IcoInfo .TableType.TableTypeIco1',
+      Bura: '.IcoInfo .TableType.TableTypeIco2',
+      Ochko: '.IcoInfo .TableType.TableTypeIco3',
     },
   },
   GardageList: '.GardageList .GargageCard:last-child',
+  ExitButton: '.StopGame .buttonExit',
 };
 
 export const decks = {
@@ -50,6 +68,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-0',
     },
     {
@@ -61,6 +80,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-1',
     },
     {
@@ -72,6 +92,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-2',
     },
     {
@@ -83,6 +104,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-3',
     },
     {
@@ -94,6 +116,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-0',
     },
     {
@@ -105,6 +128,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-1',
     },
     {
@@ -116,6 +140,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-2',
     },
     {
@@ -127,6 +152,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-3',
     },
     {
@@ -138,6 +164,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-0',
     },
     {
@@ -149,6 +176,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-1',
     },
     {
@@ -160,6 +188,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-2',
     },
     {
@@ -171,6 +200,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-3',
     },
     {
@@ -182,6 +212,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-0',
     },
     {
@@ -193,6 +224,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-1',
     },
     {
@@ -204,6 +236,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-2',
     },
     {
@@ -215,6 +248,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-3',
     },
     {
@@ -226,6 +260,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-0',
     },
     {
@@ -237,6 +272,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-1',
     },
     {
@@ -248,6 +284,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-2',
     },
     {
@@ -259,6 +296,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-3',
     },
     {
@@ -270,6 +308,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '2-0',
     },
     {
@@ -281,6 +320,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '2-1',
     },
     {
@@ -292,6 +332,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '2-2',
     },
     {
@@ -303,6 +344,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '2-3',
     },
     {
@@ -314,6 +356,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '3-0',
     },
     {
@@ -325,6 +368,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '3-1',
     },
     {
@@ -336,6 +380,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '3-2',
     },
     {
@@ -347,6 +392,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '3-3',
     },
     {
@@ -358,6 +404,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '4-0',
     },
     {
@@ -369,6 +416,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '4-1',
     },
     {
@@ -380,6 +428,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '4-2',
     },
     {
@@ -391,6 +440,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '4-3',
     },
     {
@@ -402,6 +452,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '5-0',
     },
     {
@@ -413,6 +464,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '5-1',
     },
     {
@@ -424,6 +476,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '5-2',
     },
     {
@@ -435,6 +488,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '5-3',
     },
     {
@@ -446,6 +500,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '6-0',
     },
     {
@@ -457,6 +512,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '6-1',
     },
     {
@@ -468,6 +524,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '6-2',
     },
     {
@@ -479,6 +536,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '6-3',
     },
     {
@@ -490,6 +548,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '7-0',
     },
     {
@@ -501,6 +560,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '7-1',
     },
     {
@@ -512,6 +572,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '7-2',
     },
     {
@@ -523,6 +584,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '7-3',
     },
     {
@@ -534,6 +596,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '8-0',
     },
     {
@@ -545,6 +608,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '8-1',
     },
     {
@@ -556,6 +620,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '8-2',
     },
     {
@@ -567,6 +632,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '8-3',
     },
     {
@@ -578,6 +644,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-0',
     },
     {
@@ -589,6 +656,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-1',
     },
     {
@@ -600,6 +668,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-2',
     },
     {
@@ -611,6 +680,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-3',
     },
   ],
@@ -625,6 +695,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-0',
     },
     {
@@ -636,6 +707,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-1',
     },
     {
@@ -647,6 +719,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-2',
     },
     {
@@ -658,6 +731,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-3',
     },
     {
@@ -669,6 +743,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-0',
     },
     {
@@ -680,6 +755,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-1',
     },
     {
@@ -691,6 +767,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-2',
     },
     {
@@ -702,6 +779,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-3',
     },
     {
@@ -713,6 +791,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-0',
     },
     {
@@ -724,6 +803,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-1',
     },
     {
@@ -735,6 +815,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-2',
     },
     {
@@ -746,6 +827,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-3',
     },
     {
@@ -757,6 +839,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-0',
     },
     {
@@ -768,6 +851,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-1',
     },
     {
@@ -779,6 +863,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-2',
     },
     {
@@ -790,6 +875,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-3',
     },
     {
@@ -801,6 +887,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-0',
     },
     {
@@ -812,6 +899,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-1',
     },
     {
@@ -823,6 +911,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-2',
     },
     {
@@ -834,6 +923,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-3',
     },
     {
@@ -845,6 +935,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '6-0',
     },
     {
@@ -856,6 +947,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '6-1',
     },
     {
@@ -867,6 +959,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '6-2',
     },
     {
@@ -878,6 +971,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '6-3',
     },
     {
@@ -889,6 +983,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '7-0',
     },
     {
@@ -900,6 +995,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '7-1',
     },
     {
@@ -911,6 +1007,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '7-2',
     },
     {
@@ -922,6 +1019,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '7-3',
     },
     {
@@ -933,6 +1031,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '8-0',
     },
     {
@@ -944,6 +1043,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '8-1',
     },
     {
@@ -955,6 +1055,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '8-2',
     },
     {
@@ -966,6 +1067,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '8-3',
     },
     {
@@ -977,6 +1079,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-0',
     },
     {
@@ -988,6 +1091,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-1',
     },
     {
@@ -999,6 +1103,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-2',
     },
     {
@@ -1010,6 +1115,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-3',
     },
   ],
@@ -1024,6 +1130,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-0',
     },
     {
@@ -1035,6 +1142,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-1',
     },
     {
@@ -1046,6 +1154,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-2',
     },
     {
@@ -1057,6 +1166,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '10-3',
     },
     {
@@ -1068,6 +1178,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-0',
     },
     {
@@ -1079,6 +1190,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-1',
     },
     {
@@ -1090,6 +1202,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-2',
     },
     {
@@ -1101,6 +1214,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '11-3',
     },
     {
@@ -1112,6 +1226,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-0',
     },
     {
@@ -1123,6 +1238,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-1',
     },
     {
@@ -1134,6 +1250,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-2',
     },
     {
@@ -1145,6 +1262,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '12-3',
     },
     {
@@ -1156,6 +1274,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-0',
     },
     {
@@ -1167,6 +1286,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-1',
     },
     {
@@ -1178,6 +1298,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-2',
     },
     {
@@ -1189,6 +1310,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '13-3',
     },
     {
@@ -1200,6 +1322,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-0',
     },
     {
@@ -1211,6 +1334,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-1',
     },
     {
@@ -1222,6 +1346,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-2',
     },
     {
@@ -1233,6 +1358,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '14-3',
     },
     {
@@ -1244,6 +1370,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-0',
     },
     {
@@ -1255,6 +1382,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-1',
     },
     {
@@ -1266,6 +1394,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-2',
     },
     {
@@ -1277,6 +1406,7 @@ export const decks = {
       trump: false,
       hostile: false,
       whose: '',
+      url: '',
       id: '9-3',
     },
   ],

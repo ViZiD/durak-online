@@ -9,10 +9,5 @@
   "useTabs": false,
   "tabWidth": 2,
   "trailingComma": "all",
-  "max-len": [
-    "error",
-    140,
-    2
-  ],
   "endOfLine": "lf"
 }

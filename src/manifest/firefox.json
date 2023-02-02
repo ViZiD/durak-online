@@ -12,7 +12,10 @@
     "persistent": true
   },
   "permissions": [
-    "https://durakonline.ru/*",
+    "*://durakonline.ru/*",
     "storage"
+  ],
+  "web_accessible_resources": [
+    "content/scripts/wshook.js"
   ]
 }

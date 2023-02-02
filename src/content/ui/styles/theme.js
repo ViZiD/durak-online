@@ -1,7 +1,12 @@
 export const theme = {
   colors: {
-    black: '#222222',
+    black: '#121212',
     white: '#fff',
     red: '#CF2424',
+    green: '#17c217',
+    blue: '#2989d8',
+    gold: '#f1c40f',
+    background: 'rgba(18, 18, 18, 0.4);',
+    border: '#8c8989',
   },
 };

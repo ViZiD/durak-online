@@ -1,10 +1,12 @@
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
+import { sortByOrder } from '../../content/scripts/utils';
 
 import { deckSelectors } from './deckSlice';
 
-const deckSelectAll = deckSelectors.selectAll;
+export const deckSelectAll = deckSelectors.selectAll;
+export const deckSelectById = deckSelectors.selectById;
 
-const onTable = createDraftSafeSelector(deckSelectAll, (cards) =>
+export const onTable = createDraftSafeSelector(deckSelectAll, (cards) =>
   cards.filter((card) => card.ontable),
 );
 
@@ -20,17 +22,17 @@ export const onlyDiscard = createDraftSafeSelector(deckSelectAll, (cards) =>
 
 // filter by suit
 export const filterByHearts = createDraftSafeSelector(deckSelectAll, (cards) =>
-  cards.filter((card) => card.suit === 'hearts'),
+  cards.filter((card) => card.suit === 'hearts').sort(sortByOrder),
 );
 
 export const filterByDiamonds = createDraftSafeSelector(deckSelectAll, (cards) =>
-  cards.filter((card) => card.suit === 'diamonds'),
+  cards.filter((card) => card.suit === 'diamonds').sort(sortByOrder),
 );
 
 export const filterByClubs = createDraftSafeSelector(deckSelectAll, (cards) =>
-  cards.filter((card) => card.suit === 'clubs'),
+  cards.filter((card) => card.suit === 'clubs').sort(sortByOrder),
 );
 
 export const filterBySpades = createDraftSafeSelector(deckSelectAll, (cards) =>
-  cards.filter((card) => card.suit === 'spades'),
+  cards.filter((card) => card.suit === 'spades').sort(sortByOrder),
 );

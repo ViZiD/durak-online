@@ -1,113 +1,88 @@
 import ready from '@ryanmorr/ready';
 import { store } from '../../store';
 
-import { decks, durakRe, selectors } from './constants';
-import {
-  setTableType,
-  setDeckCount,
-  toggleGameStatus,
-  resetGame,
-} from '../../features/game/gameSlice';
-import { checkParent } from './utils';
-import {
+import { selectors } from './constants';
+import { resetGame } from '../../features/game/gameSlice';
+import deckSlice, {
   resetDeck,
-  deckReceived,
+  updateCardOnTable,
+  updateCardInHands,
+  setTaker,
+  setDiscard,
   deckUpdateOne,
-  deckUpdateMany,
-  // deckSelectors,
+  deckSetTrumpId,
 } from '../../features/deck/deckSlice';
+import { addCardToBuffer, resetBuffer } from '../../features/buffer/bufferSlice';
+import { onTable } from '../../features/deck/selectors';
+import { gameStatusListenerStarted } from '../../features/listeners';
+
 import {
-  onTableDiscard,
-  onlyDiscard,
-  // filterByDiamonds,
-  // filterByHearts,
-  // filterByClubs,
-  // filterBySpades,
-} from '../../features/deck/selectors';
+  cardsHands,
+  cardsTableAdded,
+  cardsTableRemoved,
+  discardHandler,
+  handleTrumpAdded,
+  handleTrumpRemoved,
+  takerHandler,
+} from './handlers';
+import { cardsBuffer } from '../../features/buffer/selectors';
 
-export default function () {
-  ready(selectors.Game.Screen, function () {
-    if (!store.getState()?.game?.gameStart) {
-      store.dispatch(toggleGameStatus());
-    }
-  });
-
-  // get game type
-  ready(selectors.Game.Type.Durak, function (durak) {
-    if (checkParent(durak, selectors.Game.Options)) {
-      store.dispatch(setTableType(1));
-    }
-  });
-  ready(selectors.Game.Type.Bura, function (bura) {
-    if (checkParent(bura, selectors.Game.Options)) {
-      store.dispatch(setTableType(2));
-      store.dispatch(setDeckCount('36'));
-      store.dispatch(deckReceived(decks['36']));
-    }
-  });
-  ready(selectors.Game.Type.Ochko, function (ochko) {
-    if (checkParent(ochko, selectors.Game.Options)) {
-      store.dispatch(setTableType(3));
-      store.dispatch(setDeckCount('52'));
-      store.dispatch(deckReceived(decks['52']));
-    }
-  });
-
-  // get deck count
-  ready(selectors.Game.DeckCount, function (deck) {
-    if (checkParent(deck, selectors.Game.Options)) {
-      if (deck?.innerHTML) {
-        store.dispatch(setDeckCount(deck.innerHTML));
-        store.dispatch(deckReceived(decks[deck.innerHTML]));
-      }
-    }
-  });
-  // handle end game
-  ready(selectors.Game.EndGame, function (end) {
-    if (end) {
-      store.dispatch(resetDeck());
-      store.dispatch(resetGame());
-    }
-  });
+export default async function () {
+  store.dispatch(gameStatusListenerStarted());
 
   // handle cards on table
-  ready(selectors.Table.Card, function (card) {
-    const cardID = card?.src.match(durakRe.card)[0];
-    store.dispatch(
-      deckUpdateOne({
-        id: cardID,
-        changes: { ontable: true, onhands: false, trump: false, hostile: false, whose: '' },
-      }),
-    );
+  cardsTableAdded.subscribe((card) => {
+    store.dispatch(updateCardOnTable(card));
   });
+
+  cardsTableRemoved.subscribe((card) => {
+    store.dispatch(addCardToBuffer(card));
+  });
+
   // handle cards in hands
-  ready(selectors.MeUser.Card, function (card) {
-    const cardID = card?.src.match(durakRe.card)[0];
-    store.dispatch(
-      deckUpdateOne({
-        id: cardID,
-        changes: { ontable: false, onhands: true, trump: false, hostile: false, whose: '' },
-      }),
-    );
+  cardsHands.subscribe((cardId) => {
+    store.dispatch(updateCardInHands(cardId));
   });
 
-  // handle trump card
-  ready(selectors.Table.TrumpCard, function (card) {
-    const cardID = card?.src.match(durakRe.card)[0];
-    store.dispatch(deckUpdateOne({ id: cardID, changes: { trump: true } }));
+  //handle trump card
+  handleTrumpAdded.subscribe((cardId) => {
+    store.dispatch(deckSetTrumpId(cardId));
   });
 
-  //handle discard/gardage
-  ready(selectors.GardageList, function () {
-    store.dispatch(deckUpdateMany(onTableDiscard(store.getState())));
-
-    // console.log(filterByDiamonds(store.getState()));
-    // console.log(filterByHearts(store.getState()));
-    // console.log(filterByClubs(store.getState()));
-    // console.log(filterBySpades(store.getState()));
+  discardHandler.subscribe(() => {
+    store.dispatch(setDiscard(cardsBuffer(store.getState())));
+    store.dispatch(resetBuffer());
   });
 
-  store.subscribe(() => {
-    console.log(store.getState().deck?.['entities']);
+  takerHandler.subscribe((takerId) => {
+    store.dispatch(setTaker({ cards: cardsBuffer(store.getState()), takerId: takerId }));
+    store.dispatch(resetBuffer());
   });
+
+  // reset game after logout, and exit game
+  ready(selectors.Game.LoginScreen, () => {
+    store.dispatch(resetGame());
+    store.dispatch(resetDeck());
+    store.dispatch(resetBuffer());
+  });
+
+  ready(selectors.Game.MainScreen, () => {
+    store.dispatch(resetGame());
+    store.dispatch(resetDeck());
+    store.dispatch(resetBuffer());
+  });
+  ready(selectors.ExitButton, (button) => {
+    button.addEventListener('click', () => {
+      store.dispatch(resetGame());
+      store.dispatch(resetDeck());
+      store.dispatch(resetBuffer());
+    });
+  });
+
+  //   // ready('.Toastify__toast-container', (toast) => {
+  //   //   toast.parentElement.removeChild(toast);
+  //   // });
+  // store.subscribe(() => {
+  //   console.log(store.getState());
+  // });
 }
