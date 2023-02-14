@@ -8,8 +8,8 @@ import Spades from '../../../assets/suits/spades.svg';
 
 const IconStyle = styled.div`
   svg {
-    width: 27px;
-    height: 27px;
+    width: 20px;
+    height: 20px;
   }
   display: flex;
   flex: 1;

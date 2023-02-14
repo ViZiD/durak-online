@@ -1,88 +1,117 @@
+import { merge } from 'rxjs';
 import ready from '@ryanmorr/ready';
 import { store } from '../../store';
-
-import { selectors } from './constants';
-import { resetGame } from '../../features/game/gameSlice';
-import deckSlice, {
-  resetDeck,
-  updateCardOnTable,
-  updateCardInHands,
-  setTaker,
-  setDiscard,
-  deckUpdateOne,
-  deckSetTrumpId,
-} from '../../features/deck/deckSlice';
-import { addCardToBuffer, resetBuffer } from '../../features/buffer/bufferSlice';
-import { onTable } from '../../features/deck/selectors';
-import { gameStatusListenerStarted } from '../../features/listeners';
+import {
+  setTrump,
+  showGameMove,
+  showMeCard,
+  pickUpCard,
+  doGardage,
+  gameEnd,
+  setWinner,
+  fixDeck,
+  updateUserData,
+  exitAsViewer,
+  setGiveUper,
+  showGameMoveBura2,
+  usersRemainCards,
+  ressurectGame,
+  cantDeff,
+  onlyGamesData,
+  addMessage,
+  regaveRun,
+  hideReGave,
+  availableReGave,
+} from './pipes';
 
 import {
-  cardsHands,
-  cardsTableAdded,
-  cardsTableRemoved,
-  discardHandler,
-  handleTrumpAdded,
-  handleTrumpRemoved,
-  takerHandler,
-} from './handlers';
-import { cardsBuffer } from '../../features/buffer/selectors';
+  setMe,
+  setGameSession,
+  setDiscardCount,
+  setDeckRemains,
+  resetGame,
+  setMyGameId,
+} from '../../features/game/gameSlice';
+import { resetUsers, setUsers, updateUsersRemainCards } from '../../features/users/usersSlice';
+import {
+  deckRegaveRun,
+  resetDeck,
+  setDiscard,
+  setHostile,
+  updateCardInHands,
+  updateCardOnTable,
+} from '../../features/deck/deckSlice';
+import { extensionStatusToggle } from '../../features/setting/settingSlice';
+import { selectors } from './constants';
+import { throttle } from './utils';
 
 export default async function () {
-  store.dispatch(gameStatusListenerStarted());
-
-  // handle cards on table
-  cardsTableAdded.subscribe((card) => {
-    store.dispatch(updateCardOnTable(card));
-  });
-
-  cardsTableRemoved.subscribe((card) => {
-    store.dispatch(addCardToBuffer(card));
-  });
-
-  // handle cards in hands
-  cardsHands.subscribe((cardId) => {
-    store.dispatch(updateCardInHands(cardId));
-  });
-
-  //handle trump card
-  handleTrumpAdded.subscribe((cardId) => {
-    store.dispatch(deckSetTrumpId(cardId));
-  });
-
-  discardHandler.subscribe(() => {
-    store.dispatch(setDiscard(cardsBuffer(store.getState())));
-    store.dispatch(resetBuffer());
-  });
-
-  takerHandler.subscribe((takerId) => {
-    store.dispatch(setTaker({ cards: cardsBuffer(store.getState()), takerId: takerId }));
-    store.dispatch(resetBuffer());
-  });
-
-  // reset game after logout, and exit game
-  ready(selectors.Game.LoginScreen, () => {
-    store.dispatch(resetGame());
-    store.dispatch(resetDeck());
-    store.dispatch(resetBuffer());
-  });
-
-  ready(selectors.Game.MainScreen, () => {
-    store.dispatch(resetGame());
-    store.dispatch(resetDeck());
-    store.dispatch(resetBuffer());
-  });
-  ready(selectors.ExitButton, (button) => {
+  ready(selectors.TableTypeButton, (button) => {
     button.addEventListener('click', () => {
-      store.dispatch(resetGame());
-      store.dispatch(resetDeck());
-      store.dispatch(resetBuffer());
+      const throttledButton = throttle(() => {
+        store.dispatch(extensionStatusToggle());
+      }, 2000);
+      throttledButton();
     });
   });
 
-  //   // ready('.Toastify__toast-container', (toast) => {
-  //   //   toast.parentElement.removeChild(toast);
-  //   // });
-  // store.subscribe(() => {
-  //   console.log(store.getState());
+  setTrump.subscribe((data) => {
+    store.dispatch(setGameSession(data.session));
+    store.dispatch(setUsers(data.users));
+  });
+
+  regaveRun.subscribe(() => {
+    store.dispatch(deckRegaveRun());
+  });
+
+  // availableReGave.subscribe((data) => {
+  //   console.log('availableReGave!!!!', data);
   // });
+  // hideReGave.subscribe((data) => {
+  //   console.log('hideReGave!!!', data);
+  // });
+
+  updateUserData.subscribe((data) => store.dispatch(setMe(data)));
+
+  usersRemainCards.subscribe((updates) => {
+    store.dispatch(updateUsersRemainCards(updates));
+  });
+  //
+  // //
+  showGameMove.subscribe((cards) => {
+    store.dispatch(updateCardOnTable(cards));
+  });
+  doGardage.subscribe((count) => {
+    store.dispatch(setDiscard());
+    store.dispatch(setDiscardCount(count));
+  });
+  showMeCard.subscribe((cards) => {
+    store.dispatch(updateCardInHands(cards));
+  });
+  showGameMoveBura2.subscribe((cards) => {
+    store.dispatch(updateCardOnTable(cards));
+  });
+  // cantDeff.subscribe((userId) => {
+  //   store.dispatch(setHostile(userId));
+  // });
+  fixDeck.subscribe((value) => {
+    store.dispatch(setDeckRemains(value));
+  });
+  //
+  merge(gameEnd, exitAsViewer, setGiveUper).subscribe(() => {
+    store.dispatch(resetGame());
+    store.dispatch(resetDeck());
+    store.dispatch(resetUsers());
+  });
+  pickUpCard.subscribe((data) => {
+    store.dispatch(setHostile(data));
+  });
+  // // setWinner.subscribe(console.log);
+  ressurectGame.subscribe((data) => {
+    store.dispatch(setGameSession(data.session));
+    store.dispatch(setUsers(data.users));
+    store.dispatch(setMyGameId(data.session.gameId));
+  });
+  // onlyGamesData.subscribe(console.log);
+  // addMessage.subscribe(console.log);
 }

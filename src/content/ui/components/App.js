@@ -1,15 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import Moveable from 'react-moveable';
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Draggable from 'react-draggable';
 import styled from 'styled-components';
 
 import { CardTable } from './CardTable';
+import { EnemyList } from './EnemyList';
 
 import {
-  selectGameStatus,
+  selectDeckLength,
+  selectDeckTrumpId,
   selectGameType,
-  selectDeckCount,
+  selectMySlotId,
 } from '../../../features/game/selectors';
+
+import { setDeckLength } from '../../../features/deck/deckSlice';
+
+import {
+  selectDraggablePosition,
+  selectExtensionStatus,
+} from '../../../features/setting/selectors';
+import { setDraggablePosition } from '../../../features/setting/settingSlice';
+
+import { durakDeckLength, durakGameType } from '../../scripts/constants';
+import { debounce } from '../../scripts/utils';
 
 const Container = styled.div`
   cursor: move;
@@ -20,45 +33,51 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  ${(props) =>
+    !props.show && {
+      visibility: 'hidden',
+    }};
 `;
 
 export default function App() {
-  const gameStatus = useSelector(selectGameStatus);
-  const deckCount = useSelector(selectDeckCount);
-  const gameType = useSelector(selectGameType);
-  const [target, setTarget] = useState();
-  const [frame, setFrame] = useState({
-    translate: [0, 0],
-  });
+  const dispatch = useDispatch();
+
+  const draggablePosition = useSelector(selectDraggablePosition, shallowEqual);
+  const extensionStatus = useSelector(selectExtensionStatus, shallowEqual);
+
+  const deckLength = useSelector(selectDeckLength, shallowEqual);
+  const mySlotId = useSelector(selectMySlotId, shallowEqual);
+  const gameType = useSelector(selectGameType, shallowEqual);
+  const deckTrumpId = useSelector(selectDeckTrumpId, shallowEqual);
+
   useEffect(() => {
-    const durakRoot = document.querySelector('#durak-helper-root');
-    const shadowRoot = durakRoot && durakRoot.shadowRoot;
-    const dragable = shadowRoot.querySelector('#dragable');
-    setTarget(dragable);
-  }, []);
+    if (deckLength !== durakDeckLength.deck52 && deckLength && gameType !== durakGameType.ochko) {
+      dispatch(setDeckLength(deckLength));
+    }
+  }, [dispatch, deckLength, gameType, deckTrumpId]);
 
   return (
     <>
-      <Container id="dragable">
-        {gameStatus && deckCount && gameType !== 3 && <CardTable />}
-      </Container>
-      <Moveable
-        target={target}
-        draggable={true}
-        throttleDrag={0}
-        startDragRotate={0}
-        throttleDragRotate={0}
-        origin={false}
-        hideDefaultLines={true}
-        padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
-        onDragStart={(e) => {
-          e.set(frame.translate);
-        }}
+      {/* <EnemyList /> */}
+      <Draggable
+        defaultPosition={draggablePosition}
+        position={null}
         onDrag={(e) => {
-          frame.translate = e.beforeTranslate;
-          e.target.style.transform = `translate(${e.beforeTranslate[0]}px, ${e.beforeTranslate[1]}px)`;
-        }}
-      />
+          debounce(() => {
+            dispatch(setDraggablePosition({ x: e.x, y: e.y }));
+          }, 5000);
+        }}>
+        <Container
+          // id="dragable"
+          show={
+            deckLength !== 0 &&
+            mySlotId !== 0 &&
+            gameType !== durakGameType.ochko &&
+            extensionStatus
+          }>
+          <CardTable />
+        </Container>
+      </Draggable>
     </>
   );
 }

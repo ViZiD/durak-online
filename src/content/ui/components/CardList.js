@@ -1,27 +1,32 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { CardItem } from './CardItem';
 import { SuitIcon } from './SuitIcon';
 
-const ListContainer = styled.div`
+import { filterBySuit } from '../../../features/deck/selectors';
+
+const ItemContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
   flex: 1;
   padding: 0.1em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
 `;
 
-export const CardList = (props) => {
-  const { cards, suit } = props;
+export const CardList = ({ suit, id }) => {
+  const cards = useSelector((state) => filterBySuit(state, suit));
 
   return (
-    <ListContainer>
+    <ItemContainer id={id}>
       <SuitIcon suit={suit} />
       {cards.map((card) => {
-        return <CardItem key={card.value + card.suit} card={card} />;
+        return <CardItem key={card.id} card={card} />;
       })}
       <SuitIcon suit={suit} />
-    </ListContainer>
+    </ItemContainer>
   );
 };

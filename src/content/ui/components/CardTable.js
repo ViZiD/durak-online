@@ -1,33 +1,30 @@
 import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { selectDeckTrumpSuit } from '../../../features/game/selectors';
+import { durakSuitName } from '../../scripts/constants';
 
 import { CardList } from './CardList';
-import {
-  filterByHearts,
-  filterByDiamonds,
-  filterByClubs,
-  filterBySpades,
-} from '../../../features/deck/selectors';
 
 const CardsContainer = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  padding: 0.5em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  #${(props) => props.suitName} {
+    background-color: ${(props) => props.theme.colors.trumpsuit};
+  }
 `;
 
 export const CardTable = () => {
-  const hearts = useSelector(filterByHearts);
-  const diamonds = useSelector(filterByDiamonds);
-  const clubs = useSelector(filterByClubs);
-  const spades = useSelector(filterBySpades);
+  const deckTrumpSuit = useSelector(selectDeckTrumpSuit, shallowEqual);
 
   return (
-    <CardsContainer>
-      <CardList cards={hearts} suit="hearts" />
-      <CardList cards={diamonds} suit="diamonds" />
-      <CardList cards={clubs} suit="clubs" />
-      <CardList cards={spades} suit="spades" />
+    <CardsContainer suitName={durakSuitName[deckTrumpSuit]}>
+      <CardList id={'hearts'} suit="hearts" />
+      <CardList id={'diamonds'} suit="diamonds" />
+      <CardList id={'clubs'} suit="clubs" />
+      <CardList id={'spades'} suit="spades" />
     </CardsContainer>
   );
 };

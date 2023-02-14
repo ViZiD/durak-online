@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import styled, { StyleSheetManager, ThemeProvider } from 'styled-components';
+import { StyleSheetManager, ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 

@@ -5,10 +5,10 @@ const CardContainer = styled.div`
   display: flex;
   padding: 0.7em;
   background: ${(props) => props.theme.colors.black};
-  border: 0.8px solid ${(props) => props.theme.colors.border};
+  border: 0.3px solid ${(props) => props.theme.colors.border};
   border-radius: 50%;
-  width: 0.4px;
-  height: 0.4px;
+  width: 0.3px;
+  height: 0.3px;
   align-items: center;
   justify-content: center;
   flex: 1;
@@ -30,6 +30,7 @@ const CardContainer = styled.div`
  ${(props) =>
     props.isTrump && {
       background: props.theme.colors.gold,
+      color: props.theme.colors.black,
     }}
  ${(props) =>
     props.isDiscard && {
@@ -37,17 +38,16 @@ const CardContainer = styled.div`
     }}
 `;
 
-export const CardItem = (props) => {
-  const { value, ontable, onhands, discard, trump, hostile } = props.card;
+export const CardItem = React.memo(({ card }) => {
   return (
     <CardContainer
-      inTable={ontable}
-      inHands={onhands}
-      isDiscard={discard}
-      isTrump={trump}
-      hostile={hostile}>
-      {ontable}
-      {value}
+      inTable={card.ontable}
+      inHands={card.onhands}
+      isDiscard={card.discard}
+      isTrump={card.trump}
+      hostile={card.hostile}>
+      {card.ontable}
+      {card.name}
     </CardContainer>
   );
-};
+});

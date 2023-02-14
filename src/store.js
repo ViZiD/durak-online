@@ -13,14 +13,39 @@ import {
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 import deckReducer from './features/deck/deckSlice';
 import gameReducer from './features/game/gameSlice';
-import bufferReducer from './features/buffer/bufferSlice';
+import usersReducer from './features/users/usersSlice';
+import settingReducer from './features/setting/settingSlice';
 
 import { listenerMiddleware } from './features/listeners';
 import { createLogger } from 'redux-logger';
 
-// const logger = createLogger({
-//   level: 'info',
-// });
+const logger = createLogger({
+  predicate: (getState, action) =>
+    action.type === 'deck/regaveRun/fulfilled' ||
+    action.type === 'deck/regaveRun/pending' ||
+    action.type === 'deck/regaveRun/rejected' ||
+    action.type === 'setting/disableExtension' ||
+    action.type === 'setting/enableExtension',
+
+  collapsed: (getState, action) =>
+    action.type === 'deck/regaveRun/fulfilled' ||
+    action.type === 'deck/regaveRun/pending' ||
+    action.type === 'deck/regaveRun/rejected' ||
+    action.type === 'setting/disableExtension' ||
+    action.type === 'setting/enableExtension',
+
+  diff: true,
+
+  duration: true,
+  timestamp: true,
+
+  colors: {
+    title: () => '#0f1842',
+    prevState: () => '#de6f0d',
+    action: () => '#6e13ab',
+    nextState: () => '#1a9134',
+  },
+});
 
 const persistStorageConfig = {
   key: 'localStorage',
@@ -31,7 +56,8 @@ const persistStorageConfig = {
 const rootReducers = combineReducers({
   deck: deckReducer,
   game: gameReducer,
-  buffer: bufferReducer,
+  users: usersReducer,
+  setting: settingReducer,
 });
 
 const persistedReducer = persistReducer(persistStorageConfig, rootReducers);
@@ -44,7 +70,7 @@ const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     })
-      // .concat(logger)
+      .concat(logger)
 
       .prepend(listenerMiddleware.middleware),
 });
