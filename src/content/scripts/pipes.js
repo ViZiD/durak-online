@@ -8,7 +8,9 @@ import {
   normaddMessageData,
   normGameMoveBuraData,
   normGameMoveData,
+  normGetNewCards,
   normPickUpCard,
+  normSetOffDeff,
   normShowMeCardData,
   normTrumpData,
   normUserData,
@@ -42,6 +44,18 @@ export const setTrump = mainStream.pipe(
   map((data) => data?.arguments?.[0]),
   map((data) => normTrumpData(data)),
 );
+
+export const newPointsBura = mainStream.pipe(
+  filter((data) => data?.target === apiMethods.NewPointsBura),
+  map((data) => data?.arguments?.[0]),
+);
+
+export const getNewCards = mainStream.pipe(
+  filter((data) => data?.target === apiMethods.getNewCards),
+  map((data) => data?.arguments),
+  map((data) => normGetNewCards(data)),
+);
+
 export const showGameMove = mainStream.pipe(
   filter((data) => data?.target === apiMethods.showGameMove),
   map((data) => data?.arguments?.[0]),
@@ -63,7 +77,7 @@ export const doGardage = mainStream.pipe(
 export const gameEnd = mainStream.pipe(filter((data) => data?.target === apiMethods.gameEnd));
 export const setWinner = mainStream.pipe(
   filter((data) => data?.target === apiMethods.SetWinner),
-  map((data) => data?.arguments),
+  map((data) => data?.arguments?.[0]),
 );
 export const updateUserData = mainStream.pipe(
   filter((data) => data?.target === apiMethods.updateUserData),
@@ -97,6 +111,20 @@ export const ressurectGame = mainStream.pipe(
   map((data) => normTrumpData(data)),
 );
 
+export const setOffDeff = mainStream.pipe(
+  filter((data) => data?.target === apiMethods.setOffDeff),
+  map((data) => data?.arguments),
+  map((data) => normSetOffDeff(data)),
+  filter((data) => data?.pushers.length),
+);
+
+export const invocationIdCounter = mainStream.pipe(
+  filter((data) => data.hasOwnProperty('invocationId')),
+  map((data) => data?.invocationId),
+);
+
+export const setRefund = mainStream.pipe(filter((data) => data?.target === apiMethods.setRefund));
+
 export const onlyGamesData = mainStream.pipe(
   filter(
     (data) =>
@@ -119,6 +147,7 @@ export const onlyGamesData = mainStream.pipe(
       data?.target !== apiMethods.initAmuls &&
       data?.target !== apiMethods.loseTimer &&
       data?.target !== apiMethods.setTimer &&
-      data?.target !== apiMethods.cancelRepeat,
+      data?.target !== apiMethods.cancelRepeat &&
+      !data.hasOwnProperty('invocationId'),
   ),
 );

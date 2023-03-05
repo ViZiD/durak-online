@@ -1,9 +1,11 @@
 {
   "name": "durak online helper",
   "description": "durak online tools and helpers",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "icons": {
-    "128": "assets/icons/128.png"
+    "128": "assets/icons/128.png",
+    "96": "assets/icons/96.png",
+    "48": "assets/icons/48.png"
   },
   "content_scripts": [
     {

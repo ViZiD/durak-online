@@ -1,4 +1,4 @@
-import { selectors, extension } from './constants';
+import { selectors, extension, durakGameType } from './constants';
 
 export function throttle(cb, timeout = 1000) {
   let shouldWait = false;
@@ -31,20 +31,15 @@ export const debounce = (cb, timeout = 300) => {
   debounceTimer = setTimeout(cb, timeout);
 };
 
-export const getUserCordinate = (position) => {
-  const user = document.querySelector(`#UserByte${position}`);
-  const rect = user.getBoundingClientRect();
-  return { x: rect.left, y: rect.top };
+export const getElementData = (element) => {
+  const rect = element.getBoundingClientRect();
+  return { x: rect.left, y: rect.top, size: { width: rect.width, height: rect.height } };
 };
 
 export const getUserElementByPosition = (position) =>
   document.querySelector(`${selectors.Users.User}${position}`);
 
-// export const checkLocation = (hostname, domain) => {
-//   const resourceRe = new RegExp('(https://(.*' + hostname + '\\.' + domain + '/.*))/i');
-//   if (window.location.href.match(resourceRe)) return true;
-//   return false;
-// };
+export const clickOnUserElement = (position) => getUserElementByPosition(position).click();
 
 const nullthrows = (v) => {
   if (v == null) throw new Error("it's a null");
@@ -103,24 +98,38 @@ const isEmpty = (obj) =>
 
 const assingIdToCard = (card) => Object.assign(card, { Id: `${card?.Value}-${card?.Type}` });
 
-export function normUserData(data) {
-  return {
-    is_adm: data?.adm,
-    id: data?.Id,
-    in_game: data?.in_game,
-    games_today: data?.games_today,
-    win_today: data?.win_today,
-    gameId: data?.SlotId,
-    coordinate: { x: 0, y: 0 },
-  };
-}
+export const normSetOffDeff = (data) => ({
+  pushers: data?.[0],
+  defer: data?.[1],
+  three: data?.[2],
+  reverse: data?.[3],
+  moveCount: data?.[4],
+});
+
+export const normGetNewCards = (data) => ({ userId: data?.[1], remainCard: data?.[0] });
+
+export const normUserData = (data) => ({
+  is_adm: data?.adm,
+  id: data?.Id,
+  in_game: data?.in_game,
+  games_today: data?.games_today,
+  win_today: data?.win_today,
+  gameId: data?.SlotId,
+});
 
 export const normTrumpData = (data) => {
   const users = data?.Users.map((user) => ({
     id: user?.Id,
+    username: user?.last_name ? `${user?.first_name} ${user?.last_name}` : user?.first_name,
     position: user?.num,
     me: false,
-    remainCards: 0,
+    buraPoints: 0,
+    remainCards: data?.GameType === durakGameType.bura ? 4 : 0,
+    photo: user?.photo,
+    defer: false,
+    pusher: false,
+    taker: false,
+    userElement: { x: 0, y: 0, width: 0, height: 0 },
   }));
   const moveUser = data?.Users.find((user) => user?.Id === data?.MoveUser);
   const lowTrumpCard = {
@@ -139,6 +148,8 @@ export const normTrumpData = (data) => {
     deckTrump: data?.DeckTrump ? assingIdToCard(data?.DeckTrump) : { Type: 0, Value: 0, Id: '0-0' },
     gameId: data?.Id,
     lowTrump: lowTrumpCard,
+    buraHide: data?.BH,
+    isReverse: data?.IsReverse,
   };
 
   return {

@@ -24,15 +24,28 @@ const logger = createLogger({
     action.type === 'deck/regaveRun/fulfilled' ||
     action.type === 'deck/regaveRun/pending' ||
     action.type === 'deck/regaveRun/rejected' ||
-    action.type === 'setting/disableExtension' ||
-    action.type === 'setting/enableExtension',
+    // action.type === 'setting/disableExtension' ||
+    // action.type === 'setting/enableExtension' ||
+    // action.type === 'deck/applyRemainsCardsToUser/fulfilled' ||
+    // action.type === 'users/updateUsersRemainCards/fulfilled' ||
+    action.type === 'deck/updateCardInHands/fulfilled' ||
+    action.type === 'users/updateUsersBuraPoints/fulfilled' ||
+    action.type === 'users/removeUser' ||
+    action.type === 'game/setDeckRemains',
 
   collapsed: (getState, action) =>
     action.type === 'deck/regaveRun/fulfilled' ||
     action.type === 'deck/regaveRun/pending' ||
     action.type === 'deck/regaveRun/rejected' ||
-    action.type === 'setting/disableExtension' ||
-    action.type === 'setting/enableExtension',
+    // action.type === 'setting/disableExtension' ||
+    // action.type === 'setting/enableExtension' ||
+    // action.type === 'setting/enableExtension' ||
+    // action.type === 'deck/applyRemainsCardsToUser/fulfilled' ||
+    // action.type === 'users/updateUsersRemainCards/fulfilled' ||
+    action.type === 'deck/updateCardInHands/fulfilled' ||
+    action.type === 'users/updateUsersBuraPoints/fulfilled' ||
+    action.type === 'users/removeUser' ||
+    action.type === 'game/setDeckRemains',
 
   diff: true,
 
@@ -70,7 +83,7 @@ const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     })
-      .concat(logger)
+      // .concat(logger)
 
       .prepend(listenerMiddleware.middleware),
 });

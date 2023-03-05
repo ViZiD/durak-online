@@ -1,23 +1,53 @@
 import browser from 'webextension-polyfill';
 import { createListenerMiddleware, isFulfilled } from '@reduxjs/toolkit';
 
-import { applyRemainsCardsToUser, deckUpdateOne } from './deck/deckSlice';
+import { applyRemainsCardsToUser, deckUpdateOne, setDeckLength } from './deck/deckSlice';
 import { setDeckRemains, setGameSession } from './game/gameSlice';
 
 import { setUsers, updateUsersRemainCards, usersUpdateMany } from './users/usersSlice';
 
 import { disableExtension, enableExtension, extensionStatusToggle } from './setting/settingSlice';
 
-import { selectDeckTrumpId, selectGameMe, selectLowTrump } from './game/selectors';
+import {
+  selectDeckLength,
+  selectDeckTrumpId,
+  selectGameMe,
+  selectGameType,
+  selectLowTrump,
+} from './game/selectors';
 import { deckSelectById, getRemainsCardsInDeck } from './deck/selectors';
 
-import { selectEnemyUsers, selectNotOutUsers } from './users/selectors';
+import {
+  selectEnemyUsers,
+  selectNotOutUsers,
+  selectUserMe,
+  usersSelectAll,
+} from './users/selectors';
 
-import { durakGameType, extension } from '../content/scripts/constants';
+import { durakGameType, extension, selectors, durakDeckLength } from '../content/scripts/constants';
 
-import { getUserCordinate, removeInjectedCSS, injectCSS } from '../content/scripts/utils';
+import {
+  removeInjectedCSS,
+  injectCSS,
+  getElementData,
+  getUserElementByPosition,
+} from '../content/scripts/utils';
 
 export const listenerMiddleware = createListenerMiddleware();
+
+listenerMiddleware.startListening({
+  predicate: (action, currentState, previousState) => {
+    return (
+      setGameSession.match(action) &&
+      currentState.game?.session?.deckLength !== durakDeckLength.deck52 &&
+      currentState.game?.session?.gameType !== durakGameType.ochko
+    );
+  },
+  effect: async (action, listenerApi) => {
+    const deckLength = selectDeckLength(listenerApi.getState());
+    listenerApi.dispatch(setDeckLength(deckLength));
+  },
+});
 
 listenerMiddleware.startListening({
   predicate: (action, currentState, previousState) => {
@@ -100,11 +130,14 @@ listenerMiddleware.startListening({
     return setUsersFulfilled(action);
   },
   effect: async (action, listenerApi) => {
-    const users = selectEnemyUsers(listenerApi.getState());
+    const users = usersSelectAll(listenerApi.getState());
     const update = users.map((user) => {
       const { id, position } = user;
-      const cordinate = getUserCordinate(position);
-      return { id: id, changes: { cordinate: cordinate } };
+
+      const userElement = getUserElementByPosition(position);
+      const userElementData = getElementData(userElement);
+
+      return { id: id, changes: { userElement: userElementData } };
     });
     listenerApi.dispatch(usersUpdateMany(update));
   },

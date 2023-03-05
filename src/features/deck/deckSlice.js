@@ -87,7 +87,6 @@ export const setDiscard = createAsyncThunk('deck/setDiscard', async (_, { getSta
 
 export const deckRegaveRun = createAsyncThunk('deck/regaveRun', async (_, { getState }) => {
   const { ids, entities } = getState()?.deck;
-
   const cardsOnHands = ids.map((id) => entities[id]).filter((card) => card.onhands);
 
   return cardsOnHands.map((card) => {
@@ -98,17 +97,26 @@ export const deckRegaveRun = createAsyncThunk('deck/regaveRun', async (_, { getS
   });
 });
 
+export const deckRegaveTrump = createAsyncThunk('deck/regaveTrump', async (_, { getState }) => {
+  const { ids, entities } = getState()?.deck;
+  const trumpCard = ids.map((id) => entities[id]).find((card) => card.trump);
+
+  return {
+    id: trumpCard.id,
+    changes: { trump: false },
+  };
+});
+
 export const setDeckLength = createAsyncThunk(
   'deck/setDeckLength',
   async (deckLength, { rejectWithValue }) => {
     if (deckLength !== durakDeckLength.deck52 || deckLength !== 0) {
       return deckLengthIds[deckLength];
     } else {
-      rejectWithValue('deck length = 52 or 0!');
+      return rejectWithValue('deck length = 52 or 0!');
     }
   },
 );
-
 
 const compareByValue = (a, b) => {
   if (a < b) return -1;
@@ -148,6 +156,9 @@ export const deckSlice = createSlice({
       })
       .addCase(applyRemainsCardsToUser.fulfilled, (state, action) => {
         deckAdapter.updateMany(state, action.payload);
+      })
+      .addCase(deckRegaveTrump.fulfilled, (state, action) => {
+        deckAdapter.updateOne(state, action.payload);
       })
       .addCase(setDeckLength.fulfilled, (state, action) => {
         deckAdapter.removeMany(state, action.payload);

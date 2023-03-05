@@ -110,22 +110,24 @@ const cardIcons = {
 };
 
 const CardImg = styled.div`
-  width: auto;
-  height: 80px;
-  overflow: hidden;
+  flex: 0 0 calc(15.66666% - 2em);
   border-radius: 2px;
-  clip-path: inset(0 50% 50% 0);
-  margin-right: -35px;
+  max-height: 35px;
+  & img:hover {
+    transition: 0.3s ease-out;
+    transform: scale(1.5);
+  }
   img {
-    flex: 1;
-    height: 100%;
+    max-height: 100%;
+    max-width: 24px;
+    object-fit: contain;
   }
 `;
 export const CardImage = ({ cardId }) => {
   card = cardIcons[cardId];
   return (
     <CardImg>
-      <img src={card} />
+      <img src={card} draggable="false" />
     </CardImg>
   );
 };

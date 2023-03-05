@@ -1,23 +1,28 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
+import ReactDOM from 'react-dom/client';
+import { ThemeProvider } from 'styled-components';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
-const Popup = styled.div`
-  background-color: #44014c;
-  width: 300px;
-  min-height: 200px;
-  margin: 30px auto;
-  box-sizing: border-box;
-`;
+import { store, persistor } from '../store';
 
-function App() {
+import { theme } from './styles/theme';
+import { GlobalStyles } from './styles/global';
+import { App } from './components/App';
+
+function Root() {
   return (
-    <Popup>
-      <p className="count">count:</p>
-      <button>{'CLick me!'}</button>
-    </Popup>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <GlobalStyles />
+            <App />
+          </PersistGate>
+        </Provider>
+      </ThemeProvider>
+    </React.StrictMode>
   );
 }
 
-const root = createRoot(document.getElementById('popup'));
-root.render(<App />);
+ReactDOM.createRoot(document.getElementById('popup')).render(<Root />);

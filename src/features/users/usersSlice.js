@@ -8,12 +8,26 @@ export const setUsers = createAsyncThunk('users/setUsers', async (users, { getSt
   });
 });
 
+export const setDeferPusher = createAsyncThunk(
+  'users/setDeferPusher',
+  async (update, { getState }) => {},
+);
+
 export const updateUsersRemainCards = createAsyncThunk(
   'users/updateUsersRemainCards',
   async (updates) => {
     const ids = Object.keys(updates);
     return ids.map((id) => {
       return { id: id, changes: { remainCards: updates[id] } };
+    });
+  },
+);
+
+export const updateUsersBuraPoints = createAsyncThunk(
+  'users/updateUsersBuraPoints',
+  async (updates) => {
+    return updates.map((update) => {
+      return { id: update.Id, changes: { buraPoints: update.Pt } };
     });
   },
 );
@@ -35,7 +49,7 @@ export const usersSlice = createSlice({
   reducers: {
     usersUpdateOne: usersAdapter.updateOne,
     usersUpdateMany: usersAdapter.updateMany,
-
+    removeUser: usersAdapter.removeOne,
     resetUsers: () => usersAdapter.getInitialState(),
   },
   extraReducers: (builder) => {
@@ -45,11 +59,14 @@ export const usersSlice = createSlice({
       })
       .addCase(updateUsersRemainCards.fulfilled, (state, action) => {
         usersAdapter.updateMany(state, action.payload);
+      })
+      .addCase(updateUsersBuraPoints.fulfilled, (state, action) => {
+        usersAdapter.updateMany(state, action.payload);
       });
   },
 });
 
 export const usersSelectors = usersAdapter.getSelectors((state) => state.users);
-export const { usersUpdateOne, usersUpdateMany, resetUsers } = usersSlice.actions;
+export const { usersUpdateOne, usersUpdateMany, resetUsers, removeUser } = usersSlice.actions;
 
 export default usersSlice.reducer;

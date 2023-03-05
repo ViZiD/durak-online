@@ -22,6 +22,11 @@ import {
   regaveRun,
   hideReGave,
   availableReGave,
+  newPointsBura,
+  getNewCards,
+  setOffDeff,
+  invocationIdCounter,
+  setRefund,
 } from './pipes';
 
 import {
@@ -32,9 +37,16 @@ import {
   resetGame,
   setMyGameId,
 } from '../../features/game/gameSlice';
-import { resetUsers, setUsers, updateUsersRemainCards } from '../../features/users/usersSlice';
+import {
+  resetUsers,
+  setUsers,
+  removeUser,
+  updateUsersBuraPoints,
+  updateUsersRemainCards,
+} from '../../features/users/usersSlice';
 import {
   deckRegaveRun,
+  deckRegaveTrump,
   resetDeck,
   setDiscard,
   setHostile,
@@ -62,6 +74,7 @@ export default async function () {
 
   regaveRun.subscribe(() => {
     store.dispatch(deckRegaveRun());
+    store.dispatch(deckRegaveTrump());
   });
 
   // availableReGave.subscribe((data) => {
@@ -91,9 +104,7 @@ export default async function () {
   showGameMoveBura2.subscribe((cards) => {
     store.dispatch(updateCardOnTable(cards));
   });
-  // cantDeff.subscribe((userId) => {
-  //   store.dispatch(setHostile(userId));
-  // });
+
   fixDeck.subscribe((value) => {
     store.dispatch(setDeckRemains(value));
   });
@@ -106,12 +117,18 @@ export default async function () {
   pickUpCard.subscribe((data) => {
     store.dispatch(setHostile(data));
   });
-  // // setWinner.subscribe(console.log);
   ressurectGame.subscribe((data) => {
     store.dispatch(setGameSession(data.session));
     store.dispatch(setUsers(data.users));
     store.dispatch(setMyGameId(data.session.gameId));
   });
+
+  setWinner.subscribe((userId) => store.dispatch(removeUser(userId)));
+
+  newPointsBura.subscribe((data) => store.dispatch(updateUsersBuraPoints(data)));
+  // cantDeff.subscribe(console.log);
+  // setOffDeff.subscribe(console.log);
+  // getNewCards.subscribe(console.log);
   // onlyGamesData.subscribe(console.log);
   // addMessage.subscribe(console.log);
 }

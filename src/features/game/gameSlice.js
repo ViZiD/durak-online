@@ -5,6 +5,7 @@ const initialState = {
     totalUsers: 0,
     gameType: 0,
     deckLength: 0,
+    buraHide: false,
     deckTrump: {
       Type: 0,
       Value: 0,
@@ -18,6 +19,7 @@ const initialState = {
       },
       lowTrump: { Type: 0, Value: 0, Id: '0-0' },
     },
+    isReverse: false,
   },
   me: {
     is_adm: 0,
@@ -50,7 +52,6 @@ export const gameSlice = createSlice({
     setMyGameId: (state, action) => {
       state.me.gameId = action.payload;
     },
-
     resetGame: (state) => {
       state.session = initialState.session;
       state.deckRemains = initialState.deckRemains;

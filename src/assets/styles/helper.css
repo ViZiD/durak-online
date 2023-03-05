@@ -1,3 +1,15 @@
 .remainCards .oneminicard {
   display: none !important;
 }
+
+.BuraPoints {
+  visibility: hidden !important;
+}
+
+.plucesmore {
+  visibility: hidden !important;
+}
+
+.oneEnemy {
+  visibility: hidden !important;
+}

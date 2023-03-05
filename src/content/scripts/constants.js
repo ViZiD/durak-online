@@ -52,6 +52,8 @@ export const apiMethods = {
   myOchkoPoints: 'myOchkoPoints',
   FinalOchko: 'FinalOchko',
   UserStatOchko: 'UserStatOchko',
+  NewPointsBura: 'NewPointsBura',
+  getNewCards: 'getNewCards',
 };
 
 // regex
@@ -148,9 +150,9 @@ export const selectors = {
     Card: '.OneMyCard .OneCardSnippet img',
   },
   Users: {
-    Taker: '.Enemys .Defer .IAmTaker',
-    removedTaker: '.IAmTaker',
     User: '#UserByte',
+    EnemyUserSnippet: '.EnemyUserSnippet',
+    RemainCards: '.remainCards',
   },
   Game: {
     LoginScreen: '.container .bodysite .loginpage',
