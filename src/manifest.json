@@ -1,0 +1,84 @@
+{
+    "name": "Durak online helper",
+    "short_name": "DOH",
+    "description": "__MSG_extDescription__",
+    "__chrome|opera__manifest_version": 3,
+    "__firefox__manifest_version": 2,
+    "default_locale": "en",
+    "icons": {
+        "48": "assets/icons/48.png",
+        "96": "assets/icons/96.png",
+        "128": "assets/icons/128.png"
+    },
+    "declarative_net_request": {
+        "rule_resources": [
+            {
+                "id": "ruleset",
+                "enabled": true,
+                "path": "redirect-rules.json"
+            }
+        ]
+    },
+    "__chrome|opera__permissions": [
+        "storage",
+        "declarativeNetRequestWithHostAccess"
+    ],
+    "__firefox__permissions": [
+        "https://durakonline.ru/*",
+        "storage",
+        "declarativeNetRequestWithHostAccess"
+    ],
+    "__chrome|opera__host_permissions": [
+        "https://durakonline.ru/*"
+    ],
+    "content_scripts": [
+        {
+            "run_at": "document_idle",
+            "js": [
+                "scripts/content.js"
+            ],
+            "matches": [
+                "https://durakonline.ru/*"
+            ],
+            "css": []
+        }
+    ],
+    "__firefox__background": {
+        "scripts": [
+            "scripts/background.js"
+        ]
+    },
+    "__chrome|opera__background": {
+        "service_worker": "scripts/background.js"
+    },
+    "options_ui": {
+        "page": "pages/options.html",
+        "open_in_tab": false
+    },
+    "minimum_chrome_version": "88.0",
+    "__firefox__browser_action": {
+        "default_icon": "assets/icons/48.png",
+        "default_title": "durakonline helper",
+        "default_popup": "pages/popup.html"
+    },
+    "__chrome|opera__action": {
+        "default_icon": "assets/icons/48.png",
+        "default_title": "durakonline helper",
+        "default_popup": "pages/popup.html"
+    },
+    "__chrome|opera__web_accessible_resources": [
+        {
+            "resources": [
+                "assets/js/*.js",
+                "scripts/injector.js"
+            ],
+            "matches": [
+                "https://durakonline.ru/*"
+            ]
+        }
+    ],
+    "__firefox__web_accessible_resources": [
+        "assets/js/*.js",
+        "scripts/injector.js"
+    ]
+}

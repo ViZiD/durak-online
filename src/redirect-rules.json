@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "extensionPath": "/assets/js/main.js"
+            }
+        },
+        "condition": {
+            "regexFilter": "^https://durakonline.ru/game/static/js/main.[a-z0-9]+.chunk.js$",
+            "resourceTypes": [
+                "script"
+            ]
+        }
+    }
+]

@@ -1,0 +1,62 @@
+{
+  "name": "durakhelper",
+  "version": "0.0.1",
+  "author": "radik.islamov <vizid1337@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "yarn clean:dev && webextension-toolbox dev --no-auto-reload --src src --config ./webext.config.js",
+    "build": "yarn clean:build && webextension-toolbox build --src src --config ./webext.config.js",
+    "prebuild": "node scripts/bundle-downloader.mjs",
+    "build-no-minimize": "webextension-toolbox build --no-minimize --src src --config ./webext.config.js",
+    "clean:dev": "rimraf ./dist",
+    "clean:build": "rimraf ./packages"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.22.15",
+    "@webextension-toolbox/webextension-toolbox": "^7.1.1",
+    "chalk": "4.1.2",
+    "copy-webpack-plugin": "^11.0.0",
+    "eslint": "^8.46.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "got": "^13.0.0",
+    "prettier": "^3.0.1",
+    "rimraf": "^5.0.1",
+    "terser-webpack-plugin": "^5.3.9",
+    "webpack-merge": "^5.9.0"
+  },
+  "resolutions": {
+    "styled-components": "^5"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "jsxSingleQuote": false,
+    "quoteProps": "consistent",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
+  "browserslist": [
+    "last 5 Chrome versions",
+    "last 5 Firefox versions",
+    "last 5 Opera versions",
+    "last 5 Edge versions"
+  ],
+  "dependencies": {
+    "@emotion/is-prop-valid": "^1.2.1",
+    "@nanostores/logger": "^0.2.3",
+    "@nanostores/persistent": "^0.9.1",
+    "@nanostores/preact": "^0.5.0",
+    "lodash": "^4.17.21",
+    "nanostores": "^0.9.3",
+    "preact": "^10.17.1",
+    "react-draggable": "^4.4.6",
+    "styled-components": "^6.0.8",
+    "webextension-polyfill": "^0.10.0"
+  }
+}
