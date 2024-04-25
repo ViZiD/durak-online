@@ -3,7 +3,7 @@ import { $party, getUserIdByPosition, isEnemyId } from '../stores/party'
 import { $settings } from '../stores/settings'
 import { HELPER_FLAGS, selectors } from './constants'
 
-export const inGameHandler = ({ flag, state }) => {
+export const inGameHandler = ({ flag }) => {
   if (!flag) {
     resetDeck()
   } else {
@@ -22,7 +22,7 @@ export const inGameHandler = ({ flag, state }) => {
     )
   }
 }
-export const durakCardsHandler = ({ cards, state }) => {
+export const durakCardsHandler = ({ cards }) => {
   if (cards.length !== 0) {
     cards.forEach(card => {
       updateCard({
@@ -38,7 +38,7 @@ export const durakCardsHandler = ({ cards, state }) => {
   }
 }
 
-export const myCardsHandler = ({ cards, state }) => {
+export const myCardsHandler = ({ cards }) => {
   if (cards.length !== 0) {
     cards.forEach(card => {
       updateCard({
@@ -54,7 +54,7 @@ export const myCardsHandler = ({ cards, state }) => {
   }
 }
 
-export const friendCardsHandler = ({ cards, state }) => {
+export const friendCardsHandler = ({ cards }) => {
   cards.forEach(card => {
     updateCard({
       ...card,
@@ -66,7 +66,7 @@ export const friendCardsHandler = ({ cards, state }) => {
   })
 }
 
-export const gardageHandler = ({ gardage, cards, state }) => {
+export const gardageHandler = ({ gardage, cards }) => {
   if (gardage) {
     cards.forEach(card => {
       updateCard({
@@ -81,7 +81,7 @@ export const gardageHandler = ({ gardage, cards, state }) => {
     })
   }
 }
-export const pickUpHandler = ({ userPos, cards, state }) => {
+export const pickUpHandler = ({ userPos, cards }) => {
   const userId = getUserIdByPosition(userPos)
 
   if (userPos !== -1 && isEnemyId(userId)) {
@@ -128,7 +128,7 @@ export const userCardsCounterHandler = ({ counters, state }) => {
   }
 }
 
-export const deckCurrentHandler = ({ value, state }) => {
+export const deckCurrentHandler = ({ value }) => {
   //clear trump
   if (value === 0) {
     const trumpCard = $deck.get().filter(card => card.Trump)[0]
