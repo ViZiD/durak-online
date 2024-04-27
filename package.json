@@ -5,7 +5,7 @@
   "license": "UNLICENSED",
   "private": true,
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.12.2"
   },
   "scripts": {
     "dev": "yarn clean:dev && webextension-toolbox dev --copy-ignore [*.bundle] --swc --no-auto-reload --src src --config ./webext.config.js",
