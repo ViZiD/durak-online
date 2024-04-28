@@ -2,6 +2,8 @@ import Draggable from 'react-draggable'
 import styled from 'styled-components'
 import DeckRow from './DeckRow'
 import { DURAK_SUITNAME } from '../utils/constants'
+import { $deckPosition } from '../stores/settings'
+import { useStore } from '@nanostores/preact'
 
 const DeckTableContainer = styled.div`
   cursor: move;
@@ -25,8 +27,17 @@ const InternalContainer = styled.div`
 `
 
 export default ({ deckTrump }) => {
+  const deckPosition = useStore($deckPosition)
+
   return (
-    <Draggable bounds="body" position={null} allowAnyClick={true}>
+    <Draggable
+      bounds="body"
+      defaultPosition={deckPosition}
+      allowAnyClick={true}
+      onStop={e => {
+        $deckPosition.set({ x: e.x, y: e.y })
+      }}
+    >
       <DeckTableContainer>
         <InternalContainer suitName={DURAK_SUITNAME[deckTrump.Type]}>
           <DeckRow id="hearts" suit="hearts" />
